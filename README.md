@@ -18,7 +18,21 @@ Then you can access the Spark main UI on `http://localhost:9090` and worker 1 on
 
 ### Running the application
 
-> WIP
+Access a Spark worker container:
+
+```
+docker|podman exec -it spark-worker-<ID> bash
+```
+
+Then use the `spark-submit` command to run your application. The example below submits the `main.py` file with 1GB memory allocation for the driver and executor:
+
+```
+/opt/spark/bin/spark-submit \
+    --master spark://spark-master:7077 \
+    --driver-memory 1G \
+    --executor-memory 1G \
+    /opt/spark-apps/main.py
+```
 
 ### Stopping the cluster
 
