@@ -32,5 +32,5 @@ services:
       - SPARK_WORKLOAD=worker
       - SPARK_LOCAL_IP=spark-worker-1
     volumes:
-      - ./apps:/opt/spark-apps
+      - ./src:/opt/spark-apps
       - ./data:/opt/spark-data
