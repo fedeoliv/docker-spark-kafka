@@ -1,4 +1,4 @@
-# Data Engineering: Local environment with Apache Spark and Kafka clusters
+# Data Engineering: Local environment for Apache Spark and Kafka clusters
 
 This repository showcases a local environment for data engineers, leveraging the use of Docker containers to bootstrap Apache Spark and Kafka clusters.
 
@@ -6,17 +6,31 @@ The main goal is to provide you with a local environment to accelerate testing t
 
 ## Getting Started
 
-### Creating the Spark cluster
+The `docker-compose.yml` file available on this repository defines the following Docker containers by default:
 
-Build and run the standalone cluster:
+| Domain       | Container name | Description                                   | Entrypoint URL        |
+| ------------ | -------------- | --------------------------------------------- | --------------------- |
+| Apache Spark | spark-main     | Spark main node                               | http://localhost:9090 |
+|              | spark-worker-1 | A Spark worker instance                       | http://localhost:9091 |
+| Apache Kafka | zookeeper      | ZooKeeper instance for metadata management    | N/A                   |
+|              | kafka          | Community version of Confluent Kafka platform | http://localhost:9092 |
+|              | kafdrop        | UI for viewing Kafka topics/consumer groups   | http://localhost:9000 |
+
+> `kafdrop` is optional, so if you want to save resources and/or aren't interested on using the UI, you can open the Docker compose file and delete/comment its service definition.
+
+> If you need more Spark worker instances, update the Docker compose file to include new `spark-worker-<N>` service(s) using the same config structure used on the `spark-worker-1` with different values for ports and `SPARK_LOCAL_IP` environment values.
+
+### Environment setup
+
+Build and run the resources with Docker or Podman:
 
 ```
-docker-compose up
+docker-compose|podman-compose up
 ```
 
-Then you can access the Spark main UI on `http://localhost:9090` and worker 1 on `http://localhost:9091`.
+> For better experience, you can run the containers in detached mode with the `-d` flag.
 
-### Running the application
+### Spark app deployment
 
 Access a Spark worker container:
 
@@ -34,18 +48,18 @@ Then use the `spark-submit` command to run your application. The example below s
     /opt/spark-apps/main.py
 ```
 
-### Stopping the cluster
+### Cleanup
 
-If you need to stop a specific worker:
-
-```
-docker|podman stop spark-worker-<ID>
-```
-
-If you need to stop the full cluster, it's recommended to stop all workers first, then stop the Spark main node:
+If you need to stop all resources:
 
 ```
-docker|podman stop spark-main
+docker-compose|podman-compose stop
+```
+
+If you want to stop a specific service:
+
+```
+docker-compose|podman-compose stop <service-name>
 ```
 
 ## References
