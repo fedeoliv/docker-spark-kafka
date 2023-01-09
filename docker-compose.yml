@@ -1,5 +1,7 @@
 version: "3.9"
 services:
+  # Spark cluster
+
   spark-master:
     container_name: spark-main
     image: spark-cluster:3.0.2
@@ -15,6 +17,7 @@ services:
     environment:
       - SPARK_LOCAL_IP=spark-master
       - SPARK_WORKLOAD=master
+
   spark-worker-1:
     container_name: spark-worker-1
     image: spark-cluster:3.0.2
@@ -34,3 +37,47 @@ services:
     volumes:
       - ./src:/opt/spark-apps
       - ./data:/opt/spark-data
+
+  # Kafka cluster
+
+  zookeeper:
+    container_name: kafka-zookeeper
+    image: confluentinc/cp-zookeeper:7.3.1
+    networks:
+      - broker-kafka
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    container_name: kafka
+    image: confluentinc/cp-kafka:7.3.1
+    networks:
+      - broker-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  kafdrop:
+    container_name: kafdrop
+    image: obsidiandynamics/kafdrop:3.30.0
+    networks:
+      - broker-kafka
+    depends_on:
+      - kafka
+    ports:
+      - 9000:9000
+    environment:
+      KAFKA_BROKERCONNECT: kafka:29092
+
+networks:
+  broker-kafka:
+    driver: bridge
