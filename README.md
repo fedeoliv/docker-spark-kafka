@@ -6,6 +6,8 @@ The main goal is to provide you with a local environment to accelerate testing t
 
 ## Getting Started
 
+### Containers overview
+
 The `docker-compose.yml` file available on this repository defines the following Docker containers by default:
 
 | Domain       | Container name | Description                                   | Entrypoint URL        |
@@ -30,6 +32,13 @@ docker-compose|podman-compose up
 
 > For better experience, you can run the containers in detached mode with the `-d` flag.
 
+
+### Kafka producer
+
+The repository contains a `producer.kafka` file definition for the production of fake Kafka messages with random values. To use it, open the file on Visual Studio Code and make sure you have the [Tools for Apache Kafka®](https://marketplace.visualstudio.com/items?itemName=jeppeandersen.vscode-kafka) extension installed.
+
+Use the extension to create a new cluster, then click on `Produce record` or `Produce record x 10`. Once it's done, the Spark application will be ready to consume those generated menssages.
+
 ### Spark app deployment
 
 Access a Spark worker container:
@@ -42,6 +51,7 @@ Then use the `spark-submit` command to run your application. The example below s
 
 ```
 /opt/spark/bin/spark-submit \
+    --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.2 \
     --master spark://spark-master:7077 \
     --driver-memory 1G \
     --executor-memory 1G \
@@ -65,3 +75,4 @@ docker-compose|podman-compose stop <service-name>
 ## References
 
 - [Creating a Spark Standalone Cluster with Docker and docker-compose(2021 update)](https://dev.to/mvillarrgccealb/creating-a-spark-standalone-cluster-with-docker-and-docker-compose-2021-update-6l4)
+- [Structured Streaming + Kafka Integration Guide (Kafka broker version 0.10.0 or higher)](https://spark.apache.org/docs/2.2.0/structured-streaming-kafka-integration.html)
