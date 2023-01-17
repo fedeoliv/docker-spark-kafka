@@ -1,8 +1,15 @@
 # Data Engineering: Local environment for Apache Spark and Kafka clusters
 
-This repository showcases a local environment for data engineers, leveraging the use of Docker containers to bootstrap Apache Spark and Kafka clusters.
+This repository showcases a local environment for data engineers, leveraging the use of Docker containers to bootstrap Apache Spark and Kafka clusters for streaming scenarios.
 
 The main goal is to provide you with a local environment to accelerate testing the distributed nature of your Spark apps without making any deploy to a production cluster (e.g. Kubernetes or Databricks).
+
+## About the solution
+
+The solution was designed to be as minimal as possible to validate the Kakfa integration with a Spark application in a local environment.
+
+- A producer service (`.kafka` file) sends fake messages in JSON format with random values to a Kafka topic;
+- The Spark application (Python) consumes messages from the Kafka topic and print out the key/value schemas to the console.
 
 ## Getting Started
 
@@ -39,7 +46,7 @@ The repository contains a `producer.kafka` file definition for the production of
 
 Use the extension to create a new cluster, then click on `Produce record` or `Produce record x 10`. Once it's done, the Spark application will be ready to consume those generated menssages.
 
-### Spark app deployment
+### Spark app deployment     
 
 Access a Spark worker container:
 
