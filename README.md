@@ -11,6 +11,12 @@ The solution was designed to be as minimal as possible to validate the Kafka int
 - A producer service (`.kafka` file) sends fake messages in JSON format with random values to a Kafka topic;
 - The Spark application (Python) consumes messages from the Kafka topic and print out the key/value schemas to the console.
 
+## Prerequisites
+
+- For Docker users: [Docker Desktop](https://docs.docker.com/compose/install/)
+- For Podman users: [Podman](https://podman.io/getting-started/installation) and [podman-compose](https://github.com/containers/podman-compose)
+- [Visual Studio Code](https://code.visualstudio.com/download) with [Tools for Apache Kafka®](https://marketplace.visualstudio.com/items?itemName=jeppeandersen.vscode-kafka) extension
+
 ## Getting Started
 
 ### Containers overview
