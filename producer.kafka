@@ -1,0 +1,12 @@
+--- Produce random messages in JSON format
+PRODUCER json-messages-sample
+topic: topic1
+headers: messageId={{random.uuid}}
+{
+    "dept":"{{random.number(5)}}",
+    "id": "{{random.uuid}}",
+    "first_name": "{{name.firstName}}",
+    "last_name": "{{name.lastName}}",
+    "email": "{{internet.email}}",
+    "country": "{{address.country}}"
+}
