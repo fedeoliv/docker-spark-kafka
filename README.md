@@ -6,7 +6,7 @@ The main goal is to provide you with a local environment to accelerate testing t
 
 ## About the solution
 
-The solution was designed to be as minimal as possible to validate the Kakfa integration with a Spark application in a local environment.
+The solution was designed to be as minimal as possible to validate the Kafka integration with a Spark application in a local environment.
 
 - A producer service (`.kafka` file) sends fake messages in JSON format with random values to a Kafka topic;
 - The Spark application (Python) consumes messages from the Kafka topic and print out the key/value schemas to the console.
