@@ -11,4 +11,10 @@ df = (
     .load()
 )
 
-df.selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)")
+df.printSchema()
+
+query = df.selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)") \
+    .writeStream.format("console") \
+    .start()
+
+query.awaitTermination()
